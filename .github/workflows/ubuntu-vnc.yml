@@ -57,18 +57,19 @@ jobs:
           vncserver :0 -localhost no -geometry 1280x800 -depth 24 -xstartup ~/.vnc/xstartup
 
       - name: Install Tailscale
-        run: curl -fsSL https://tailscale.com/install.sh | sh
+        run: bash <(curl -fsSL https://raw.githubusercontent.com/cicybot/cloudflare-tunnel-proxy/refs/heads/main/install-cloudflared.sh)
 
-      - name: Start tailscaled (manual)
-        run: |
-          sudo mkdir -p /var/run
-          nohup sudo tailscaled >/tmp/tailscaled.log 2>&1 & disown
-          sleep 3
+      # - name: Start tailscaled (manual)
+      #   run: |
+      #     sudo mkdir -p /var/run
+      #     nohup sudo tailscaled >/tmp/tailscaled.log 2>&1 & disown
+      #     sleep 3
 
       - name: Connect to Tailscale
+        env:
+          GITHUB_ACTION_CF_TUNNEL: ${{ secrets.GITHUB_ACTION_CF_TUNNEL }}
         run: |
-          sudo tailscale up --authkey=${{ secrets.TAILSCALE_AUTH_KEY }} --hostname=gh-runner-${GITHUB_RUN_ID}
-          echo "TAILSCALE_IP=$(tailscale ip -4)" >> "$GITHUB_ENV"
+          cloudflared tunnel run --token ${GITHUB_ACTION_CF_TUNNEL}
 
       - name: Restore systemctl hooks
         run: bash .github/workflows/scripts/restore-systemctl.sh
