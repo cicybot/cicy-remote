@@ -92,8 +92,8 @@ jobs:
       - name: Run Electron
         run: |
           git clone https://github.com/cicybot/electron-headless.git
-          cd electron-headless/electron
           npm install electron -g
+          cd electron-headless/app
           npm install
           electron -v
 #          # Run Electron in background
