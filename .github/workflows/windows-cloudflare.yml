@@ -33,10 +33,10 @@ jobs:
       - name: Verify RDP Accessibility
         shell: pwsh
         run: .github/workflows/scripts/win-verify-rdp.ps1
-
-      - name: Start 3proxy
-        shell: pwsh
-        run: docker run --name 3proxy --rm -d -p "8082:3128/tcp" ghcr.io/tarampampam/3proxy:1
+#
+#      - name: Start 3proxy
+#        shell: pwsh
+#        run: docker run --name 3proxy --rm -d -p "8082:3128/tcp" ghcr.io/tarampampam/3proxy:1
 
       - name: Maintain Connection
         shell: pwsh
