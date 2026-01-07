@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - main
+      - Jupter
 jobs:
   Jupter:
     runs-on: windows-latest
@@ -73,11 +73,11 @@ jobs:
           cd electron-headless\electron
           npm install electron -g
           npm install -d
+          electron -v
           Start-Process `
-             -FilePath "npm" `
+             -FilePath "electron" `
              -ArgumentList @(
-               "run",
-               "start"
+               ".",
              ) `
              -WindowStyle Hidden
 
@@ -86,19 +86,18 @@ jobs:
         run: |
           Write-Host "==================`n"
           $processNames = @("node", "jupyter", "cloudflared")
-
-          foreach ($name in $processNames) {
-              $procs = Get-Process -Name $name -ErrorAction SilentlyContinue
-              if ($procs) {
-                  Write-Host "=== $name ==="
-                  foreach ($p in $procs) {
-                      Write-Host "PID: $($p.Id) | CPU: $($p.CPU) | Memory(MB): $([math]::Round($p.WorkingSet/1MB,2)) | StartTime: $($p.StartTime)"
-                  }
-              } else {
-                  Write-Host "$name process not running."
-              }
+          while ($true) {
+               foreach ($name in $processNames) {
+                $procs = Get-Process -Name $name -ErrorAction SilentlyContinue
+                if ($procs) {
+                    Write-Host "=== $name ==="
+                    foreach ($p in $procs) {
+                        Write-Host "PID: $($p.Id) | CPU: $($p.CPU) | Memory(MB): $([math]::Round($p.WorkingSet/1MB,2)) | StartTime: $($p.StartTime)"
+                    }
+                } else {
+                    Write-Host "$name process not running."
+                }
+            }
+            Write-Host "[$(Get-Date)] Active - Use Ctrl+C in workflow to terminate"
+            Start-Sleep -Seconds 10
           }
-#          while ($true) {
-#            Write-Host "[$(Get-Date)] Active - Use Ctrl+C in workflow to terminate"
-#            Start-Sleep -Seconds 10
-#          }
