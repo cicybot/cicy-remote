@@ -54,7 +54,7 @@ jobs:
         run: python -m pip cache dir
 
       - name: Restore pip cache
-        id: cache
+        id: cache-pip
         uses: actions/cache@v4
         with:
           path: ~\appdata\local\pip\cache
