@@ -9,6 +9,8 @@ on:
 jobs:
   dev-ubuntu:
     runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/cicybot/ubuntu-vnc
     timeout-minutes: 3600
 
     steps:
@@ -22,20 +24,8 @@ jobs:
           curl api.myip.com
           free -m
           df -h
+#
 
-      # Step 4: Create cache folder
-      - name: Create APT cache folder
-        run: mkdir -p $HOME/apt-cache
-
-      # Step 5: Restore cached debs (if any)
-      - name: Restore cached debs
-        run: |
-          sudo mkdir -p /var/cache/apt/archives
-          sudo cp $HOME/apt-cache/*.deb /var/cache/apt/archives/ || true
-
-      # Step 6: Update apt
-      - name: Update APT
-        run: sudo apt-get update -qq
 
       # Step 7: Prevent service auto-start during apt
       - name: Prevent service auto-start
@@ -51,29 +41,6 @@ jobs:
       - name: Pre-create system users
         run: bash .github/workflows/scripts/precreate-users.sh
 
-      # Step 10: Install APT packages
-      - name: Install APT packages
-        run: |
-          xargs -a apt-packages.txt sudo apt-get install -yq
-
-      # Step 11: Save downloaded debs for caching
-      - name: Save downloaded debs
-        run: |
-          mkdir -p $HOME/apt-cache
-          sudo cp /var/cache/apt/archives/*.deb $HOME/apt-cache || true
-
-      # Step 12: Cache APT debs (after installation)
-      - name: Cache APT debs
-        uses: actions/cache@v4
-        with:
-          path: $HOME/apt-cache
-          key: ${{ runner.os }}-apt-${{ hashFiles('**/apt-packages.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-apt-
-
-      # Step 13: Optional: Install Desktop
-      # - name: Install Desktop
-      #   run: bash .github/workflows/scripts/install-desktop.sh
 
       # Step 14: Validate users and tmpfiles
       - name: Validate system users and tmpfiles
