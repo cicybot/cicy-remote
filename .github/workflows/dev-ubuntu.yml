@@ -41,6 +41,7 @@ jobs:
       # Step 7: Install packages
       - name: Install APT packages
         run: |
+          ls -alh
           xargs -a apt-packages.txt sudo apt-get install -yq
 
       # Step 8: Save debs to cache
