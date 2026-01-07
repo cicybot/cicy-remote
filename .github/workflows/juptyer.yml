@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - test
+      - main
 jobs:
   Jupter:
     runs-on: windows-latest
@@ -84,7 +84,7 @@ jobs:
         shell: pwsh
         run: |
           Write-Host "==================`n"
-          while ($true) {
-            Write-Host "[$(Get-Date)] Active - Use Ctrl+C in workflow to terminate"
-            Start-Sleep -Seconds 10
-          }
+#          while ($true) {
+#            Write-Host "[$(Get-Date)] Active - Use Ctrl+C in workflow to terminate"
+#            Start-Sleep -Seconds 10
+#          }
