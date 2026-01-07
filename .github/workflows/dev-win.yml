@@ -12,6 +12,11 @@ jobs:
     timeout-minutes: 3600
 
     steps:
+      - name: Get System Info
+        run: |
+          curl api.myip.com
+          docker ps
+
       - name: Restore Electron cache
         id: electron-cache
         uses: actions/cache@v4
@@ -28,21 +33,18 @@ jobs:
 
           Invoke-WebRequest -Uri $url -OutFile $zip
           Expand-Archive -Path $zip -DestinationPath $extract -Force
+          ls
+
 #      - name: Add Electron to PATH
 #        shell: pwsh
 #        run: |
 #          $electronPath = "$PWD\electron\electron-v39.2.7-win32-x64"
 #          "$electronPath" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+#
+#      - name: Check Electron version
+#        run: $PWD\electron\electron-v39.2.7-win32-x64\electron.exe -v
+#        shell: pwsh
 
-      - name: Check Electron version
-        run: $PWD\electron\electron-v39.2.7-win32-x64\electron.exe -v
-        shell: pwsh
-
-
-      - name: Get System Info
-        run: |
-          curl api.myip.com
-          docker ps
       - name: Setup and test 3Proxy
         shell: pwsh
         run: |
