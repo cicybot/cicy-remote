@@ -65,7 +65,7 @@ jobs:
           Start-Process -FilePath "$env:USERPROFILE\3proxy\bin64\3proxy.exe" -ArgumentList "$env:USERPROFILE\3proxy.cfg" -WindowStyle Hidden
 
           Write-Host "Waiting for 3proxy to start..."
-          Start-Sleep -Seconds 3
+          Start-Sleep -Seconds 1
 
           ### -------- HEALTH CHECKS -------- ###
 
@@ -181,7 +181,7 @@ jobs:
       - name: Maintain Connection
         shell: pwsh
         run: |
-          $processNames = @("3proxy", "jupyter", "cloudflared")
+          $processNames = @("3proxy","electron", "jupyter", "cloudflared")
           $ports = @(3128, 8888, 3389)
 
           while ($true) {
