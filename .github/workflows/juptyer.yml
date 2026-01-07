@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - Jupter
+      - Jupyter
 jobs:
   Jupter:
     runs-on: windows-latest
