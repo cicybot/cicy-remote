@@ -33,6 +33,15 @@ jobs:
       - name: Verify RDP Accessibility
         shell: pwsh
         run: .github/workflows/scripts/win-verify-rdp.ps1
+
+
+      - name: Install node
+        shell: pwsh
+        run: pwd
+
+      - name: Install Jupyter
+        shell: pwsh
+        run: pwd
 #
 #      - name: Start 3proxy
 #        shell: pwsh
