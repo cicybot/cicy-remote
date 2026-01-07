@@ -52,6 +52,7 @@ jobs:
               "--no-browser"
             ) `
             -WindowStyle Hidden
+
       - name: Get npm cache directory
         id: npm-cache-dir
         shell: pwsh
@@ -84,6 +85,19 @@ jobs:
         shell: pwsh
         run: |
           Write-Host "==================`n"
+          $processNames = @("node", "jupyter", "cloudflared")
+
+          foreach ($name in $processNames) {
+              $procs = Get-Process -Name $name -ErrorAction SilentlyContinue
+              if ($procs) {
+                  Write-Host "=== $name ==="
+                  foreach ($p in $procs) {
+                      Write-Host "PID: $($p.Id) | CPU: $($p.CPU) | Memory(MB): $([math]::Round($p.WorkingSet/1MB,2)) | StartTime: $($p.StartTime)"
+                  }
+              } else {
+                  Write-Host "$name process not running."
+              }
+          }
 #          while ($true) {
 #            Write-Host "[$(Get-Date)] Active - Use Ctrl+C in workflow to terminate"
 #            Start-Sleep -Seconds 10
