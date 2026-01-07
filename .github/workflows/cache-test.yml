@@ -70,7 +70,6 @@ jobs:
           pip install jupyterlab
 
       - name: Run Jupyter
-        if: steps.cache-pip.outputs.cache-hit == 'true'
         shell: pwsh
         run: |
           Start-Process `
@@ -96,6 +95,5 @@ jobs:
         shell: pwsh
         run: npm install -g electron
       - name: Run electron
-        if: steps.npm-cache.outputs.cache-hit == 'true'
         shell: pwsh
         run: electron -v
