@@ -137,9 +137,9 @@ jobs:
       - name: Run electron
         shell: pwsh
         run: |
+          cd c:\
           git clone https://github.com/cicybot/electron-headless.git
           cd electron-headless\electron
-          npm install electron -g
           npm install -d
           electron -v
           Start-Process `
