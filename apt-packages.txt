@@ -1,3 +1,5 @@
+colord
+speech-dispatcher
 ubuntu-desktop-minimal
 gnome-session
 gnome-shell
@@ -15,5 +17,3 @@ xserver-xorg-input-all
 xserver-xorg-video-dummy
 x11-apps
 policykit-1
-colord
-speech-dispatcher
