@@ -56,8 +56,8 @@ jobs:
           vncserver -kill :0 || true
           vncserver :0 -localhost no -geometry 1280x800 -depth 24 -xstartup ~/.vnc/xstartup
 
-      - name: Install Tailscale
-        run: bash <(curl -fsSL https://raw.githubusercontent.com/cicybot/cloudflare-tunnel-proxy/refs/heads/main/install-cloudflared.sh)
+#      - name: Install Tailscale
+#        run: bash <(curl -fsSL https://raw.githubusercontent.com/cicybot/cloudflare-tunnel-proxy/refs/heads/main/install-cloudflared.sh)
 
       # - name: Start tailscaled (manual)
       #   run: |
@@ -75,19 +75,19 @@ jobs:
       - name: Restore systemctl hooks
         run: bash .github/workflows/scripts/restore-systemctl.sh
 
-      - name: Verify VNC Connection
-        run: |
-          echo "Tailscale IP: $TAILSCALE_IP"
-          nc -z -v "$TAILSCALE_IP" 5900
-
-      - name: Keep Connection Alive
-        run: |
-          echo "=== VNC ACCESS INFORMATION ==="
-          echo "Address: ${TAILSCALE_IP}:5900"
-          echo "Password: ${VNC_PASSWORD}"
-          echo "Desktop: GNOME"
-          echo "=============================="
-          while true; do
-            echo "[$(date)] VNC Active - Cancel workflow to terminate"
-            sleep 300
-          done
+#      - name: Verify VNC Connection
+#        run: |
+#          echo "Tailscale IP: $TAILSCALE_IP"
+#          nc -z -v "$TAILSCALE_IP" 5900
+#
+#      - name: Keep Connection Alive
+#        run: |
+#          echo "=== VNC ACCESS INFORMATION ==="
+#          echo "Address: ${TAILSCALE_IP}:5900"
+#          echo "Password: ${VNC_PASSWORD}"
+#          echo "Desktop: GNOME"
+#          echo "=============================="
+#          while true; do
+#            echo "[$(date)] VNC Active - Cancel workflow to terminate"
+#            sleep 300
+#          done
