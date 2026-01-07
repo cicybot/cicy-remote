@@ -32,14 +32,16 @@ jobs:
       - name: Pre-create system users
         run: bash .github/workflows/scripts/precreate-users.sh
 
+      - name: Install Desktop and VNC Server
+        run: bash .github/workflows/scripts/install-desktop-vnc.sh
+
       - name: Validate system users and tmpfiles
         run: bash .github/workflows/scripts/validate-tmpfiles.sh
 
       - name: Re-enable service start
         run: bash .github/workflows/scripts/reenable-services.sh
 
-      - name: Install VNC Server
-        run: sudo apt-get update && sudo apt-get install -y tigervnc-standalone-server
+
       - name: Configure VNC Server
         run: |
           mkdir -p ~/.vnc
