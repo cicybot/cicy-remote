@@ -33,7 +33,7 @@ jobs:
 
           Invoke-WebRequest -Uri $url -OutFile $zip
           Expand-Archive -Path $zip -DestinationPath $extract -Force
-          ls
+          ls electron
 
 #      - name: Add Electron to PATH
 #        shell: pwsh
