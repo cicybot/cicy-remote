@@ -30,7 +30,6 @@ jobs:
           } else {
             Write-Host "Cache MISS"
           }
-
       - name: Create folder and file when cache missing
         if: steps.cache.outputs.cache-hit != 'true'
         shell: pwsh
