@@ -1,4 +1,4 @@
-name: Jupyter
+name: JupyterWindows
 
 on:
   workflow_dispatch:
