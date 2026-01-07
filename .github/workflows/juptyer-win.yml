@@ -11,6 +11,11 @@ jobs:
     timeout-minutes: 3600
 
     steps:
+      - name: Get System Info
+        run: |
+          curl api.myip.com
+          docker ps
+
       - name: Checkout repository
         uses: actions/checkout@v4
 
