@@ -68,7 +68,7 @@ jobs:
           pip install jupyterlab
 
       - name: Run Jupyter
-        if: steps.cache-pip.outputs.cache-hit != 'true'
+        if: steps.cache-pip.outputs.cache-hit == 'true'
         shell: pwsh
         run: |
           jupyter --version
