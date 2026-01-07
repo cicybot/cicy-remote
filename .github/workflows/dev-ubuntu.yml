@@ -38,6 +38,8 @@ jobs:
       - name: Update APT
         run: sudo apt-get update -qq
 
+      - name: Checkout repository
+        uses: actions/checkout@v4
       # Step 7: Install packages
       - name: Install APT packages
         run: |
@@ -55,8 +57,6 @@ jobs:
           echo -e '#!/bin/sh\nexit 101' | sudo tee /usr/sbin/policy-rc.d >/dev/null
           sudo chmod +x /usr/sbin/policy-rc.d
 
-#      - name: Checkout repository
-#        uses: actions/checkout@v4
 #
 #      - name: Disable systemctl hooks
 #        run: bash .github/workflows/scripts/disable-systemctl.sh
