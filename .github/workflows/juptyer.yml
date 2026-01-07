@@ -29,7 +29,7 @@ jobs:
         with:
           path: |
             ~\appdata\local\pip\cache
-          key: cicy-window-cache
+          key: cicy-window-cache-pip
 
       - name: Show pip cache dir
         shell: pwsh
