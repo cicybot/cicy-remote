@@ -12,6 +12,33 @@ jobs:
     timeout-minutes: 3600
 
     steps:
+      - name: Restore Electron cache
+        id: electron-cache
+        uses: actions/cache@v4
+        with:
+          path: electron/electron-v39.2.7-win32-x64
+          key: electron-39.2.7-win32-x64
+      - name: Download Electron if cache miss
+        if: steps.electron-cache.outputs.cache-hit != 'true'
+        shell: pwsh
+        run: |
+          $url = "https://github.com/electron/electron/releases/download/v39.2.7/electron-v39.2.7-win32-x64.zip"
+          $zip = "electron.zip"
+          $extract = "$PWD\electron"
+
+          Invoke-WebRequest -Uri $url -OutFile $zip
+          Expand-Archive -Path $zip -DestinationPath $extract -Force
+      - name: Add Electron to PATH
+        shell: pwsh
+        run: |
+          $electronPath = "$PWD\electron\electron-v39.2.7-win32-x64"
+          "$electronPath" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+
+      - name: Check Electron version
+        run: electron.exe -v
+        shell: pwsh
+          
+          
       - name: Download Electron and add to PATH
         shell: pwsh
         run: |
