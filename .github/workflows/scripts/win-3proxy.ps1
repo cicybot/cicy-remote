@@ -10,5 +10,3 @@ Expand-Archive -Path "~\3proxy.zip" -DestinationPath "~\3proxy"
 $proxyPath = "~\3proxy\bin64\3proxy.exe"
 Start-Process -FilePath $proxyPath -ArgumentList "~\3proxy.cfg" -WindowStyle Hidden
 
-Start-Sleep -Seconds 2
-netstat -ano | findstr 3128
