@@ -71,7 +71,11 @@ jobs:
         if: steps.cache-pip.outputs.cache-hit == 'true'
         shell: pwsh
         run: |
-          python -m jupyter --version
+          Start-Process `
+            -FilePath "jupyter" `
+            -ArgumentList @(
+              "--version"
+            ) `
 
       - name: Get npm cache directory
         id: npm-cache-dir
