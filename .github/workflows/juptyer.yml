@@ -1,0 +1,93 @@
+name: Jupter
+
+on:
+  workflow_dispatch:
+
+jobs:
+  Jupter:
+    runs-on: windows-latest
+    timeout-minutes: 3600
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Install Cloudflared
+        shell: pwsh
+        run: .github/workflows/scripts/win-install-cloudflared.ps1
+
+      - name: Establish Cloudflared Connection
+        shell: pwsh
+        env:
+          CF_TUNNEL: ${{ secrets.WIN_CF_TUNNEL }}
+        run: .github/workflows/scripts/win-establish-cf.ps1
+
+      - name: Restore cache
+        id: cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~\cicy
+            ~\AppData\Local\pip\Cache
+          key: cicy-window-cache
+
+      - name: Show cache status
+        shell: pwsh
+        run: |
+          if ("${{ steps.cache.outputs.cache-hit }}" -eq "true") {
+            Write-Host "Cache HIT"
+          } else {
+            Write-Host "Cache MISS"
+          }
+
+      - name: Create folder and file when cache missing
+        if: steps.cache.outputs.cache-hit != 'true'
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force ~\cicy
+          "Test cache" | Out-File ~\cicy\test.txt
+          Write-Host "Created test cache file"
+
+      - name: List contents of cache folder
+        shell: pwsh
+        run: |
+          Write-Host "Listing ~\cicy"
+          if (Test-Path ~\cicy) {
+            Get-ChildItem ~\cicy -Recurse
+          } else {
+            Write-Host "Directory does not exist"
+          }
+
+      - name: Show pip cache dir
+        shell: pwsh
+        run: python -m pip cache dir
+
+      - name: Install Jupyter and Run Jupyter in backend
+        shell: pwsh
+        env:
+          JUPYTER_TOKEN: ${{ secrets.JUPYTER_TOKEN }}
+        run: |
+          python -m pip install --upgrade pip
+          pip install jupyterlab
+
+          # Run Jupyter Lab in background (detached)
+          Start-Process `
+            -FilePath "jupyter" `
+            -ArgumentList @(
+              "lab",
+              "--IdentityProvider.token=$env:JUPYTER_TOKEN",
+              "--ip=0.0.0.0",
+              "--port=8888",
+              "--ServerApp.allow_remote_access=True",
+              "--ServerApp.trust_xheaders=True",
+              "--no-browser"
+            ) `
+            -WindowStyle Hidden
+
+      - name: Maintain Connection
+        shell: pwsh
+        run: |
+          Write-Host "==================`n"
+          while ($true) {
+            Write-Host "[$(Get-Date)] Active - Use Ctrl+C in workflow to terminate"
+            Start-Sleep -Seconds 300
+          }
