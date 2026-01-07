@@ -61,7 +61,7 @@ jobs:
           key: cicy-window-cache-pip
 
       - name: Install Jupyter
-        if: steps.cache.outputs.cache-hit != 'true'
+        if: steps.cache-pip.outputs.cache-hit != 'true'
         shell: pwsh
         run: |
           python -m pip install --upgrade pip
