@@ -88,7 +88,6 @@ jobs:
             --ServerApp.allow_remote_access=True \
             --ServerApp.trust_xheaders=True \
             --no-browser > jupyter.log 2>&1 &
-
       - name: Maintain Connection
         run: |
           while true; do
@@ -99,6 +98,5 @@ jobs:
             docker ps
             netstat -tnlp
             sleep 10
-#            break
           done
 
