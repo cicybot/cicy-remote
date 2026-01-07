@@ -1,4 +1,4 @@
-name: JupyterWindows
+name: Jupyter Windows
 
 on:
   workflow_dispatch:
@@ -84,9 +84,10 @@ jobs:
       - name: Maintain Connection
         shell: pwsh
         run: |
-          Write-Host "==================`n"
-          $processNames = @("node", "jupyter", "cloudflared")
+          
+          $processNames = @("electron", "jupyter", "cloudflared")
           while ($true) {
+               Write-Host "==================`n"
                foreach ($name in $processNames) {
                 $procs = Get-Process -Name $name -ErrorAction SilentlyContinue
                 if ($procs) {
