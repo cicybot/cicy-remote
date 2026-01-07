@@ -24,9 +24,6 @@ jobs:
           curl api.myip.com
           free -m
           df -h
-#
-
-
       # Step 7: Prevent service auto-start during apt
       - name: Prevent service auto-start
         run: |
